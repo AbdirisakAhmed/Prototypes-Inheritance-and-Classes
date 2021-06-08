@@ -15,6 +15,17 @@
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
+ function GameObject(attr){
+ this.createdAt = attr.createdAt;
+ this.name = attr.name;
+ this.dimensions = attr.dimensions;
+
+ }
+ 
+ CharacterStats.prototype =  Object.create(GameObject.prototype)
+GameObject.prototype.destroy = function() {
+  return `${this.name} was Removed From the Game.`
+}
 
 /*
   === CharacterStats ===
@@ -22,6 +33,17 @@
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
+function CharacterStats(characAttr){
+  GameObject.call(this, characAttr)
+  this.healthPoints = characAttr.healthPoints;
+ 
+
+  
+}
+CharacterStats.prototype.takeDamage = function(){
+  return `${this.name}`
+}
+
 
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
@@ -32,7 +54,18 @@
   * should inherit destroy() from GameObject through CharacterStats
   * should inherit takeDamage() from CharacterStats
 */
- 
+ function Humanoid (attr){
+  GameObject.call(this, attr)
+   this.team = attr.team;
+   this.weapons = attr.weapons;
+   this.language = attr.language;
+   this.greet = function(){
+    return `${this.name} greeting ${this.language}` 
+  }
+ }
+ Humanoid.prototype =  Object.create(GameObject.prototype)
+ Humanoid.prototype =  Object.create(CharacterStats.prototype)
+
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
   * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
@@ -41,7 +74,7 @@
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
-/*
+
   const mage = new Humanoid({
     createdAt: new Date(),
     dimensions: {
@@ -102,7 +135,7 @@
   console.log(archer.greet()); // Lilith offers a greeting in Elvish.
   console.log(mage.takeDamage()); // Bruce took damage.
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-*/
+
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
